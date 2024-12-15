@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6 text-center">Se connecter</h1>
+
+        <form method="post" class="space-y-6">
+            {% if error %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    {% if app.session.get('login_attempts', 0) >= 3 %}
+                        Vous avez dépassé le nombre de tentatives. Veuillez résoudre le CAPTCHA.
+                    {% else %}
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}.
+                    <a href="{{ path('app_logout') }}" class="text-blue-600 hover:underline">Se déconnecter</a>
+                </div>
+            {% endif %}
+
+            <!-- Username -->
+            <div class="relative z-0 w-full group">
+                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" autocomplete="username" required autofocus placeholder=" ">
+                <label for="inputUsername" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nom d'utilisateur</label>
+            </div>
+
+            <!-- Password -->
+            <div class="relative z-0 w-full group">
+                <input type="password" name="password" id="inputPassword" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" autocomplete="current-password" required placeholder=" ">
+                <label for="inputPassword" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mot de passe</label>
+            </div>
+
+            <!-- CAPTCHA -->
+            {% if app.session.get('login_attempts', 0) >= 3 %}
+                <div class="g-recaptcha" data-sitekey="6Lfqm5gqAAAAAPFl8QLvlK55xuL7RaPsWTBZdE8B"></div>
+            {% endif %}
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <!-- Remember Me -->
+            <div class="flex items-center">
+                <input id="rememberMe" name="_remember_me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                <label for="rememberMe" class="ml-2 block text-sm text-gray-900">Se souvenir de moi</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 text-sm font-medium">
+                Connexion
+            </button>
+        </form>
+
+        <div class="text-center mt-6">
+            <p class="text-sm text-gray-600">
+                Pas encore inscrit ?
+                <a href="{{ path('app_register') }}" class="text-blue-600 hover:underline">Créer un compte</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

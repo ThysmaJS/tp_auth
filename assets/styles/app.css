@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ajoutez vos styles personnalisés ici */
 body {
     background-color: skyblue;
 }
