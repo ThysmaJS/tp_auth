@@ -7,6 +7,13 @@
     <div class="max-w-lg w-full bg-white p-8 rounded-lg shadow-md">
         <h1 class="text-2xl font-bold text-gray-900 mb-6 text-center">Créer un compte</h1>
 
+        <!-- Messages d'erreur (flash) -->
+        {% for message in app.flashes('error') %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         {{ form_start(registrationForm, { 'attr': { 'class': 'space-y-6' } }) }}
 
         <!-- Username -->
