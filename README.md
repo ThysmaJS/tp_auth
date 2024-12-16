@@ -93,9 +93,13 @@ Générez le fichier CSS avec Tailwind CSS :
 $ npx tailwindcss -i ./assets/styles/app.css -o ./public/build/app.css --watch
 ```
 
-### **6. Lancez le serveur Symfony**
+### **6. Lancez le Watch**
 
-Démarrez le serveur de développement Symfony :
+```bash
+$ npm run watch
+```
+
+### **7. Lancez le serveur Symfony**
 
 ```bash
 $ symfony server:start
